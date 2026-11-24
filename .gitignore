@@ -1,0 +1,16 @@
+# Sub-repos: each is its own git repository with its own remote.
+# They live in this folder but are NOT tracked by this workspace repo
+# (no submodules). See AGENTS.md for what each one is.
+#   ourbits_hmb_api     -> lightrainstech/ourbits_hmb_api
+#   ourbits_hmb_app     -> lightrainstech/holdmybill-app
+#   ourbits_hmb_web     -> lightrainstech/ourbits_hmb_web
+#   ourbits_io_website  -> ourbits-systems/ourbits_io_website
+/ourbits_hmb_api/
+/ourbits_hmb_app/
+/ourbits_hmb_web/
+/ourbits_io_website/
+
+# Local tooling / OS
+.claude/settings.local.json
+.DS_Store
+.env
