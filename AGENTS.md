@@ -2,7 +2,7 @@
 
 This folder is a workspace. It holds four separate git repos that make up the Ourbits / HoldMyBill product. Work is started from here, but every code change lands in exactly one of the repos below.
 
-The workspace root is its own small git repo that tracks only workspace files (`AGENTS.md`, `CLAUDE.md`, `.gitignore`). The four sub-repos are listed in `.gitignore` and are not tracked here: no submodules, no nested commits. When you clone a new sibling repo into this folder, add it to `.gitignore` and to the table below.
+The workspace root is its own small git repo that tracks only workspace files (`AGENTS.md`, `CLAUDE.md`, `.gitignore`, `_coder/`). The four sub-repos are listed in `.gitignore` and are not tracked here: no submodules, no nested commits. When you clone a new sibling repo into this folder, add it to `.gitignore`, to the table below and to `REPOS` in `_coder/index.mjs`.
 
 ## Hard rule: one repo per task
 
@@ -10,7 +10,7 @@ The workspace root is its own small git repo that tracks only workspace files (`
 - **Editing a second repo needs explicit permission** from the user in the current conversation ("also update the app", "change both api and web"). Permission given for one task does not carry over to the next.
 - **Reading is always allowed.** Read, grep, and inspect any repo to understand a contract or check impact.
 - **If a change crosses a repo boundary** (see "Contracts" below): finish the change in the current repo, then stop and tell the user what the other repo needs (file, endpoint, field, route) and ask whether to do it. Do not make the second change on your own.
-- **No edits at the workspace root** other than `AGENTS.md`, `CLAUDE.md` and `.gitignore`. Never add a root `package.json`, lockfile or workspace config, never turn the sub-repos into submodules, and never `git add` a sub-repo folder in the root repo.
+- **No edits at the workspace root** other than `AGENTS.md`, `CLAUDE.md`, `.gitignore` and files under `_coder/`. Never add a root `package.json`, lockfile or workspace config, never turn the sub-repos into submodules, and never `git add` a sub-repo folder in the root repo.
 
 ## Repos
 
@@ -94,3 +94,11 @@ If a request is ambiguous ("fix the reset password flow"), check the contract ab
 - app: `flutter analyze` (plus the repo's own gates).
 - web: `npm run build` is the only working check (lint is broken by design).
 - io_website: `npm run build`.
+
+## Task folder (`_coder/`)
+
+- The root `_coder/` is for cross-repo and workspace-level work (contracts, multi-repo plans, workspace docs). Work confined to one repo goes in that repo's own `_coder/` if it has one (`ourbits_hmb_api` does), run from inside that repo. Writing in the root `_coder/` does not count as editing a second repo.
+- `_coder/` holds issues, plans, docs, reports, specs and benchmarks as `<folder>/NNN_<type>_<slug>.md`. Not source truth (code wins); read only when asked. "Issues" means `_coder/issues/` unless GitHub is named.
+- Every `_coder` file names its repo in frontmatter (`repo: ourbits_hmb_web`, comma-separated if it spans several, `workspace` for root-only work); the index rejects files without it.
+- `_coder/README.md` governs naming and frontmatter. `_coder/INDEX.md` is generated: run `node _coder/index.mjs` after any change there; `node _coder/index.mjs next <type>` prints the next number. Search with `node _coder/index.mjs find <word>…` or `open` instead of reading `INDEX.md`.
+- Plans are written before the first code edit (`status: wip`), updated after each step or commit (decisions, results, commit hashes, what is open), and closed when done.
